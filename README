@@ -1,0 +1,48 @@
+
+==== NAME ====
+
+Posy::Plugin::Categories - Posy plugin to give category links.
+
+
+==== VERSION ====
+
+This describes version ``0.40'' of Posy::Plugin::Categories.
+
+
+==== DESCRIPTION ====
+
+This provides category-based (lists of) links: a category tree which can be
+used as a site map, contains a list of lists of all the categories; and a
+breadcrumb list which provides a "breadcrumb trail" list.
+
+These methods can be called from within templates if one is using the
+TextTemplate plugin.
+
+For example:
+
+[==Posy->category_tree()==]
+
+
+==== REQUIRES ====
+
+    Posy
+    Posy::Core
+    Posy::Plugin::TextTemplate
+
+    Test::More
+
+
+==== AUTHOR ====
+
+    Kathryn Andersen (RUBYKAT)
+    perlkat AT katspace dot com
+    http://www.katspace.com
+
+
+==== COPYRIGHT AND LICENCE ====
+
+Copyright (c) 2004-2005 by Kathryn Andersen
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
