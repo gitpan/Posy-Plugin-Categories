@@ -1,16 +1,16 @@
 --- #YAML:1.0
 name: Posy-Plugin-Categories
-version: 0.50
+version: 0.63
 author:
   - Kathryn Andersen
 abstract: Posy plugin to give category links.
 license: perl
 requires:
-  Posy: 0.4
+  Posy: 0.9
 build_requires:
   Test::More: 0
 provides:
   Posy::Plugin::Categories:
     file: lib/Posy/Plugin/Categories.pm
-    version: 0.50
+    version: 0.63
 generated_by: Module::Build version 0.2607

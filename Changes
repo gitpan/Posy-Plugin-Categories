@@ -1,6 +1,40 @@
 Revision history for Posy-Plugin-Categories
 ===========================================
 
+0.63 Sun 06 February 2005
+-------------------------
+
+  * (6 Feb 2005) added INSTALL docs
+
+0.62 Thu 20 January 2005
+------------------------
+
+  * (20 Jan 2005) stupid release problems
+
+  * (20 Jan 2005) update release notes
+
+  * (20 Jan 2005) removing Makefile.PL
+
+  * (20 Jan 2005) update release notes
+
+  * (20 Jan 2005) added 'hide' option
+  	Can now hide categories from the breadcrumb or category tree.
+  Useful for "special" entries you don't want to show all the time,
+  like custom not-found pages.
+
+0.61 Thu 20 January 2005
+------------------------
+
+  * (20 Jan 2005) removing Makefile.PL
+
+0.60 Thu 20 January 2005
+------------------------
+
+  * (20 Jan 2005) added 'hide' option
+  	Can now hide categories from the breadcrumb or category tree.
+  Useful for "special" entries you don't want to show all the time,
+  like custom not-found pages.
+
 0.50 Sun 16 January 2005
 ------------------------
 

@@ -7,11 +7,11 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 =head1 VERSION
 
-This describes version B<0.50> of Posy::Plugin::Categories.
+This describes version B<0.63> of Posy::Plugin::Categories.
 
 =cut
 
-our $VERSION = '0.50';
+our $VERSION = '0.63';
 
 =head1 SYNOPSIS
 
@@ -34,6 +34,21 @@ For example:
 
 [==Posy->category_tree()==]
 
+=head2 Configuration
+
+This expects configuration settings in the $self->{config} hash,
+which, in the default Posy setup, can be defined in the main "config"
+file in the config directory.
+
+=over
+
+=item B<categories_hide>
+
+Default value for categories not to show in the breadcrumb or
+category tree.  The 'hide' value can also be set in the actual
+call as well, which will override the config value.
+
+=back
 =cut
 
 =head1 Helper Methods
@@ -54,6 +69,7 @@ Methods which can be called from elsewhere.
 	item_sep=>"\n",
 	tree_sep=>"\n",
 	use_count=>1,
+	hide=>$hide_regex,
 	root=>'Home');
 
 Generates a list (of lists) of links of all the categories.
@@ -115,6 +131,11 @@ The string to separate each item.
 
 The string to separate each tree.
 
+=item hide
+
+If the category matches this string, don't include it in the tree.
+(defaults to 'categories_hide' config value)
+
 =item use_count
 
 If true, display the count of entries for that category next to that
@@ -149,12 +170,14 @@ sub category_tree {
 		root=>'Home',
 		you_were_here=>'&lt;-- you were here',
 		use_count=>1,
+		hide=>$self->{config}->{categories_hide},
 		@_
 	       );
 
     my @categories = sort keys %{$self->{categories}};
     my @list_of_lists = $self->_build_lol(categories=>\@categories,
-	depth=>0);
+	depth=>0,
+	hide=>$args{hide});
     $args{tree_depth} = 0;
     $args{end_depth} = 0;
 
@@ -271,6 +294,11 @@ The string to separate each item.
 
 The string to separate each tree.
 
+=item hide
+
+If the category matches this string, don't include it in the breadcrumb.
+(defaults to 'categories_hide' config value)
+
 =item root
 
 What label should we give the "root" category?
@@ -311,12 +339,14 @@ sub breadcrumb {
 		root=>'Home',
 		start_depth=>0,
 		end_depth=>$self->{path}->{depth} + 1,
+		hide=>$self->{config}->{categories_hide},
 		@_
 	       );
 
     my @categories = sort keys %{$self->{categories}};
     my @list_of_lists = $self->_build_lol(categories=>\@categories,
 	depth=>0, match_path=>1,
+	hide=>$args{hide},
 	start_depth=>$args{start_depth},
 	end_depth=>$args{end_depth});
     $args{tree_depth} = 0;
@@ -339,10 +369,12 @@ sub _build_lol {
 	start_depth=>0,
 	end_depth=>0,
 	match_path=>0,
+	hide=>$self->{config}->{categories_hide},
 	@_
     );
     my $cats_ref = $args{categories};
     my $depth = $args{depth};
+    my $hide = $args{hide};
 
     my @list_of_lists = ();
     while (@{$cats_ref})
@@ -365,6 +397,10 @@ sub _build_lol {
 		)
 	    )
 	   )
+	{
+	    shift @{$cats_ref}; # skip this one
+	}
+	elsif ($hide and $cat =~ /$hide/)
 	{
 	    shift @{$cats_ref}; # skip this one
 	}
@@ -489,6 +525,74 @@ sub _traverse_lol {
 	    : $args->{subtree_foot})
 	    : ''));
 } # _traverse_lol
+
+=head1 INSTALLATION
+
+Installation needs will vary depending on the particular setup a person
+has.
+
+=head2 Administrator, Automatic
+
+If you are the administrator of the system, then the dead simple method of
+installing the modules is to use the CPAN or CPANPLUS system.
+
+    cpanp -i Posy::Plugin::Categories
+
+This will install this plugin in the usual places where modules get
+installed when one is using CPAN(PLUS).
+
+=head2 Administrator, By Hand
+
+If you are the administrator of the system, but don't wish to use the
+CPAN(PLUS) method, then this is for you.  Take the *.tar.gz file
+and untar it in a suitable directory.
+
+To install this module, run the following commands:
+
+    perl Build.PL
+    ./Build
+    ./Build test
+    ./Build install
+
+Or, if you're on a platform (like DOS or Windows) that doesn't like the
+"./" notation, you can do this:
+
+   perl Build.PL
+   perl Build
+   perl Build test
+   perl Build install
+
+=head2 User With Shell Access
+
+If you are a user on a system, and don't have root/administrator access,
+you need to install Posy somewhere other than the default place (since you
+don't have access to it).  However, if you have shell access to the system,
+then you can install it in your home directory.
+
+Say your home directory is "/home/fred", and you want to install the
+modules into a subdirectory called "perl".
+
+Download the *.tar.gz file and untar it in a suitable directory.
+
+    perl Build.PL --install_base /home/fred/perl
+    ./Build
+    ./Build test
+    ./Build install
+
+This will install the files underneath /home/fred/perl.
+
+You will then need to make sure that you alter the PERL5LIB variable to
+find the modules, and the PATH variable to find the scripts (posy_one,
+posy_static).
+
+Therefore you will need to change:
+your path, to include /home/fred/perl/script (where the script will be)
+
+	PATH=/home/fred/perl/script:${PATH}
+
+the PERL5LIB variable to add /home/fred/perl/lib
+
+	PERL5LIB=/home/fred/perl/lib:${PERL5LIB}
 
 =head1 REQUIRES
 
