@@ -7,9 +7,12 @@ my $builder = Module::Build->new(
     license             => 'perl',
     dist_author         => 'Kathryn Andersen',
     dist_version_from   => 'lib/Posy/Plugin/Categories.pm',
-	requires            => {
+    requires            => {
 	'Posy' => 0.90,
 	},
+    recommends => {
+	'Posy::Plugin::YamlConfig' =>0.41,
+    },
     build_requires => {
         'Test::More' => 0,
     },

@@ -1,6 +1,16 @@
 Revision history for Posy-Plugin-Categories
 ===========================================
 
+0.64 Wed 09 February 2005
+-------------------------
+
+  * (9 Feb 2005) categories_labels config option
+  	Added a new config option 'categories_labels', which enables
+  one to change any of the labels for category_tree and breadcrumb to something
+  other than just a "pretty" version of the category.
+  	One is also able to use a 'labels' argument to the functions; but
+  it defaults to the 'categories_labels' config value.
+
 0.63 Sun 06 February 2005
 -------------------------
 
@@ -10,17 +20,6 @@ Revision history for Posy-Plugin-Categories
 ------------------------
 
   * (20 Jan 2005) stupid release problems
-
-  * (20 Jan 2005) update release notes
-
-  * (20 Jan 2005) removing Makefile.PL
-
-  * (20 Jan 2005) update release notes
-
-  * (20 Jan 2005) added 'hide' option
-  	Can now hide categories from the breadcrumb or category tree.
-  Useful for "special" entries you don't want to show all the time,
-  like custom not-found pages.
 
 0.61 Thu 20 January 2005
 ------------------------

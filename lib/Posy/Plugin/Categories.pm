@@ -7,11 +7,11 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 =head1 VERSION
 
-This describes version B<0.63> of Posy::Plugin::Categories.
+This describes version B<0.64> of Posy::Plugin::Categories.
 
 =cut
 
-our $VERSION = '0.63';
+our $VERSION = '0.64';
 
 =head1 SYNOPSIS
 
@@ -48,7 +48,23 @@ Default value for categories not to show in the breadcrumb or
 category tree.  The 'hide' value can also be set in the actual
 call as well, which will override the config value.
 
+=item B<categories_labels>
+
+Optional hash which can only be set if one also has
+L<Posy::Plugin::YamlConfig> or something similar.
+
+By default, this uses prettified names of the category directories
+to use as labels.  This hash provides replacement labels to use
+if you prefer longer, more descriptive names.
+
+For example:
+
+    category_labels:
+	b7: "Blake's 7"
+	b5: "Babylon 5"
+
 =back
+
 =cut
 
 =head1 Helper Methods
@@ -136,6 +152,11 @@ The string to separate each tree.
 If the category matches this string, don't include it in the tree.
 (defaults to 'categories_hide' config value)
 
+=item labels
+
+Hash containing replacement labels for one or more categories.
+(defaults to 'categories_labels' config value)
+
 =item use_count
 
 If true, display the count of entries for that category next to that
@@ -171,6 +192,7 @@ sub category_tree {
 		you_were_here=>'&lt;-- you were here',
 		use_count=>1,
 		hide=>$self->{config}->{categories_hide},
+		labels=>$self->{config}->{categories_labels},
 		@_
 	       );
 
@@ -299,6 +321,11 @@ The string to separate each tree.
 If the category matches this string, don't include it in the breadcrumb.
 (defaults to 'categories_hide' config value)
 
+=item labels
+
+Hash containing replacement labels for one or more categories.
+(defaults to 'categories_labels' config value)
+
 =item root
 
 What label should we give the "root" category?
@@ -340,6 +367,7 @@ sub breadcrumb {
 		start_depth=>0,
 		end_depth=>$self->{path}->{depth} + 1,
 		hide=>$self->{config}->{categories_hide},
+		labels=>$self->{config}->{categories_labels},
 		@_
 	       );
 
@@ -456,16 +484,23 @@ sub _traverse_lol {
 	{
 	    my $cat = $ll;
 	    my $item;
+	    my $label;
 	    if (($self->{path}->{basename} eq 'index'
 		or $self->{path}->{type} !~ /entry$/)
 		and $cat eq $self->{path}->{cat_id})
 	    {
+		$label = ($self->{categories}->{$cat}->{basename}
+			     ? (exists
+				$args->{labels}->
+				{$self->{categories}->{$cat}->{basename}}
+				?  $args->{labels}->
+				{$self->{categories}->{$cat}->{basename}}
+				: $self->{categories}->{$cat}->{pretty})
+			     : $args->{root});
 		$item = join('',
 			     $args->{pre_item},
 			     $args->{pre_active_item},
-			     ($self->{categories}->{$cat}->{basename}
-			      ? $self->{categories}->{$cat}->{pretty}
-			      : $args->{root}),
+			     $label,
 			     $args->{post_active_item}
 			    );
 	    }
@@ -473,9 +508,15 @@ sub _traverse_lol {
 	    {
 		if ($self->{categories}->{$cat}->{basename})
 		{
+		    $label = (exists
+				 $args->{labels}->
+				 {$self->{categories}->{$cat}->{basename}}
+				 ?  $args->{labels}->
+				 {$self->{categories}->{$cat}->{basename}}
+				 : $self->{categories}->{$cat}->{pretty});
 		    $item = join('', $args->{pre_item},
 				 '<a href="', $self->{url}, '/', $cat, '/">',
-				 $self->{categories}->{$cat}->{pretty},
+				 $label,
 				 '</a>');
 		}
 		else
@@ -596,6 +637,7 @@ the PERL5LIB variable to add /home/fred/perl/lib
 
 =head1 REQUIRES
 
+    Module::Build
     Posy
     Posy::Core
     Posy::Plugin::TextTemplate

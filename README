@@ -6,7 +6,7 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 ==== VERSION ====
 
-This describes version ``0.63'' of Posy::Plugin::Categories.
+This describes version ``0.64'' of Posy::Plugin::Categories.
 
 
 ==== DESCRIPTION ====
@@ -33,6 +33,20 @@ config directory.
 Default value for categories not to show in the breadcrumb or category tree.
 The 'hide' value can also be set in the actual call as well, which will
 override the config value.
+
+``categories_labels''
+Optional hash which can only be set if one also has Posy::Plugin::YamlConfig
+or something similar.
+
+By default, this uses prettified names of the category directories to use as
+labels. This hash provides replacement labels to use if you prefer longer,
+more descriptive names.
+
+For example:
+
+    category_labels:
+        b7: "Blake's 7"
+        b5: "Babylon 5"
 
 
 ==== INSTALLATION ====
@@ -108,6 +122,7 @@ the PERL5LIB variable to add /home/fred/perl/lib
 
 ==== REQUIRES ====
 
+    Module::Build
     Posy
     Posy::Core
     Posy::Plugin::TextTemplate
