@@ -7,11 +7,11 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 =head1 VERSION
 
-This describes version B<0.40> of Posy::Plugin::Categories.
+This describes version B<0.50> of Posy::Plugin::Categories.
 
 =cut
 
-our $VERSION = '0.40';
+our $VERSION = '0.50';
 
 =head1 SYNOPSIS
 
@@ -450,7 +450,8 @@ sub _traverse_lol {
 				 '</a>');
 		}
 	    }
-	    if ($args->{use_count})
+	    if ($args->{use_count}
+		&& $self->{categories}->{$cat}->{num_entries})
 	    {
 		$item = join('', $item, ' (',
 		    $self->{categories}->{$cat}->{num_entries}, ')');

@@ -1,6 +1,13 @@
 Revision history for Posy-Plugin-Categories
 ===========================================
 
+0.50 Sun 16 January 2005
+------------------------
+
+  * (16 Jan 2005) no show zero counts
+  	In 'category_tree', don't show counts of zero, just leave it
+  blank for those; it's tidier.
+
 0.40 Sat 15 January 2005
 ------------------------
 
