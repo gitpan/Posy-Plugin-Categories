@@ -7,11 +7,11 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 =head1 VERSION
 
-This describes version B<0.64> of Posy::Plugin::Categories.
+This describes version B<0.65> of Posy::Plugin::Categories.
 
 =cut
 
-our $VERSION = '0.64';
+our $VERSION = '0.65';
 
 =head1 SYNOPSIS
 
