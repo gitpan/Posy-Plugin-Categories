@@ -7,11 +7,11 @@ Posy::Plugin::Categories - Posy plugin to give category links.
 
 =head1 VERSION
 
-This describes version B<0.65> of Posy::Plugin::Categories.
+This describes version B<0.6501> of Posy::Plugin::Categories.
 
 =cut
 
-our $VERSION = '0.65';
+our $VERSION = '0.6501';
 
 =head1 SYNOPSIS
 
@@ -486,7 +486,8 @@ sub _traverse_lol {
 	    my $item;
 	    my $label;
 	    if (($self->{path}->{basename} eq 'index'
-		or $self->{path}->{type} !~ /entry$/)
+		 or ($self->{path}->{type} !~ /entry$/
+		     and !$self->{path}->{basename}))
 		and $cat eq $self->{path}->{cat_id})
 	    {
 		$label = ($self->{categories}->{$cat}->{basename}
